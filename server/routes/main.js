@@ -4,7 +4,13 @@ const router =  express.Router();
 
 // Routes
 router.get('',(req, res) => {
-    res.render('index');
+
+    const locals = {
+        title: "NodeJS Blogger",
+        description: "Simple blog created with NodeJS, Express & MongoDB."
+    }
+
+    res.render('index', { locals });
 });
 
 router.get('/about',(req, res) => {
