@@ -284,3 +284,20 @@ border-bottom: 1px solid var(--gray-light);
   }
 
 
+  .pagination{
+    font-size: 1.3rem;
+    color: var(--gray);
+    text-decoration: none;
+    margin-top: 40px;
+    display: inline-block;  
+  }
+
+  .pagination:hover{
+    color: var(--black); 
+}
+
+  /* Footer */
+  .footer{
+    margin: 4rem;
+    text-align: center;
+  }
