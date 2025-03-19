@@ -198,3 +198,19 @@ img {
 .header_nav ul a.active:hover {
   color: var(--gray);
 }
+
+/* Author - Homepage */
+
+.author {
+  padding: var(--padding-sm) 0;
+  text-align: center;
+}
+
+.author_heading {
+  margin: var(--padding-sm) 0 0.313rem 0;
+}
+
+.author_body {
+  font-size: var(--font-size-md);
+  margin: 5px 0 30px 0;
+}
