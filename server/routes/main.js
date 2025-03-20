@@ -8,21 +8,60 @@ const Post = require('../models/Post');
 // HOME route
 router.get('', async (req, res) => {
 
-    const locals = {
-        title: "NodeJS Blogger",
-        description: "Simple blog created with NodeJS, Express & MongoDB."
-    }
 
     try {
-        const data = await Post.find();
+
+        const locals = {
+            title: "NodeJS Blogger",
+            description: "Simple blog created with NodeJS, Express & MongoDB."
+        }
+
+        let perPage = 5;
+        let page = req.query.page || 1;
+
+        const data = await Post.aggregate([ { $sort : { createdAt: -1 } } ])
+        .skip(perPage * page - perPage)
+        .limit(perPage)
+        .exec();
+
+        const count = await Post.countDocuments({});
+        const nextPage = parseInt(page) + 1;
+        const hasNextPage = nextPage <= Math.ceil(count / perPage);
+
         
-        res.render('index', { locals, data });
+        res.render('index', { 
+            locals, 
+            data,
+            current: page,
+            nextPage : hasNextPage ? nextPage : null 
+        });
 
     } catch (error) {
         console.log(error);
     }
 
 });
+
+
+// Without Pagination
+
+// router.get('', async (req, res) => {
+
+//     const locals = {
+//         title: "NodeJS Blogger",
+//         description: "Simple blog created with NodeJS, Express & MongoDB."
+//     }
+
+//     try {
+//         const data = await Post.find();
+        
+//         res.render('index', { locals, data });
+
+//     } catch (error) {
+//         console.log(error);
+//     }
+
+// });
 
 
 router.get('/about',(req, res) => {
