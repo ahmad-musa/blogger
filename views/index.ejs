@@ -23,7 +23,7 @@
 
         <% data.forEach(post => { %>    
             <li>
-                <a href="#" class="">
+                <a href="/post/<%= post._id %>" class="">
                     <span class="title"> <%= post.title %> </span>
                     <span class="article_list_date"> <%= post.createdAt.toDateString() %> </span>
                 </a>
