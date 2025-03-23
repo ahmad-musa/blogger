@@ -327,6 +327,7 @@ img {
   right: 0;
   color: var(--gray-light);
   padding: var(--padding-md);
+  cursor: pointer;
 }
 
 
