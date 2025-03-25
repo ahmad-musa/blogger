@@ -87,11 +87,32 @@ router.post("/admin", async (req, res) => {
 
 
 
-// POST
-// Admin: checking Login |> dashboard route
+// GET
+// Admin: |> Dashboard route
 
 router.get("/dashboard", authMiddleware,  async (req, res) => {
-    res.render('admin/dashboard');
+    
+    try {
+        const locals = {
+            title: "Dashboard",
+            description: "Simple blog created with NodeJS, Express & MongoDB.",
+          };
+
+        const data = await Post.find();
+        res.render('admin/dashboard', {
+            locals,
+            data
+        });
+
+    } catch (error) {
+        
+    }
+    
+    
+    
+    
+    
+
 });
 
 // router.post("/admin", async (req, res) => {
