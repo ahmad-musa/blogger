@@ -10,9 +10,37 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const adminLayout = "../views/layouts/admin";
+const jwtSecret = process.env.JWT_SECRET;
+
+
+
+
+// 
+// Admin : Check Login cookies route
+
+const authMiddleware = (req, res, next) => {
+    const token = req.cookies.token;
+
+    if (!token) {
+        return res.status(401).json( { message : 'Unauthorized'});
+        // res.render('error404');
+    }
+
+    try {
+        const decoded =  jwt.verify(token, jwtSecret);
+        req.userId = decoded.userId;
+        next();
+    } catch (error) {
+        return res.status(401).json( { message : 'Unauthorized'});
+    }
+}
+
+
+
 
 // GET
 // Admin : Login route
+
 router.get("/admin", async (req, res) => {
   try {
     const locals = {
@@ -30,21 +58,56 @@ router.get("/admin", async (req, res) => {
 // POST
 // Admin : Check Login route
 
-
 router.post("/admin", async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    if (req.body.username === "admin" && req.body.password === "password") {
-      res.send('You are logged in');
-    } else {
-        res.send('Wrong username or password');
+    const user = await User.findOne( { username } );
+
+    if(!user){
+        return res.status(401).json( { message: 'Invalid credentials' } );
     }
+
+    const isPasswordValid = await bcrypt.compare( password, user.password );
+
+    if(!isPasswordValid){
+        return res.status(401).json( { message: 'Invalid credentials' } );
+    }
+
+    const token = jwt.sign( { userid: user._id }, jwtSecret)
+    res.cookie('token',token, { httpOnly:true });
+
+    res.redirect('/dashboard');
+
 
   } catch (error) {
     console.log(error);
   }
 });
+
+
+
+// POST
+// Admin: checking Login |> dashboard route
+
+router.get("/dashboard", authMiddleware,  async (req, res) => {
+    res.render('admin/dashboard');
+});
+
+// router.post("/admin", async (req, res) => {
+//   try {
+//     const { username, password } = req.body;
+
+//     if (req.body.username === "admin" && req.body.password === "password") {
+//       res.send('You are logged in');
+//     } else {
+//         res.send('Wrong username or password');
+//     }
+
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
 
 
 
