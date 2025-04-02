@@ -10,6 +10,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const adminLayout = "../views/layouts/admin";
+const adminLoginLayout = "../views/layouts/adminLogin";
 const jwtSecret = process.env.JWT_SECRET;
 
 
@@ -48,7 +49,7 @@ router.get("/admin", async (req, res) => {
       description: "Simple blog created with NodeJS, Express & MongoDB.",
     };
 
-    res.render("admin/index", { locals, layout: adminLayout });
+    res.render("admin/index", { locals, layout: adminLoginLayout });
   } catch (error) {
     console.log(error);
   }
