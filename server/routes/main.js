@@ -33,7 +33,8 @@ router.get('', async (req, res) => {
             locals, 
             data,
             current: page,
-            nextPage : hasNextPage ? nextPage : null
+            nextPage : hasNextPage ? nextPage : null,
+            currentRoute: '/'
         });
 
     } catch (error) {
@@ -90,7 +91,8 @@ router.post('/search', async (req, res) => {
 
         res.render('search', { 
             data,
-            locals 
+            locals,
+            currentRoute: '/' 
         });
         // res.send(searchTerm);
 
@@ -113,7 +115,7 @@ router.get('/post/:id', async (req, res) => {
 
         const locals = {
             title: data.title,
-            description: "Simple blog created with NodeJS, Express & MongoDB."
+            description: "Simple blog created with NodeJS, Express & MongoDB.",
         }
 
         
@@ -134,7 +136,9 @@ router.get('/post/:id', async (req, res) => {
 
 
 router.get('/about',(req, res) => {
-    res.render('about');
+    res.render('about',{
+        currentRoute: '/about'
+    });
 });
 
 
