@@ -113,6 +113,10 @@ router.get("/dashboard", authMiddleware,  async (req, res) => {
 });
 
 
+
+// CREATE OPERATION
+
+
 // GET
 // Admin: |> Create Post route
 
@@ -164,6 +168,7 @@ router.post("/add-post", authMiddleware,  async (req, res) => {
 
 
 
+// UPDATE OPERATION
 
 // GET
 // Admin: |> Update/edit Post route
@@ -220,8 +225,24 @@ router.put("/edit-post/:id", authMiddleware,  async (req, res) => {
 
 
 
+// DELETE OPERATION
 
+// DELETE
+// Admin: |> Delete Post route
 
+router.delete("/delete-post/:id", authMiddleware,  async (req, res) => {
+    
+  try {
+
+  await Post.deleteOne( { _id: req.params.id } );
+  
+  res.redirect('/dashboard');
+
+  } catch (error) {
+      console.log(error);
+  }
+
+}); 
 
 
 
