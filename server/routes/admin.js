@@ -163,6 +163,44 @@ router.post("/add-post", authMiddleware,  async (req, res) => {
 });
 
 
+
+
+// GET
+// Admin: |> Update/edit Post route
+
+router.get("/edit-post/:id", authMiddleware,  async (req, res) => {
+    
+  try {
+
+    const locals = {
+      title: "Edit Post",
+      description: "Simple blog created with NodeJS, Express & MongoDB.",
+    };
+
+  const data = await Post.findOne( { _id: req.params.id } );
+  
+  res.render('admin/edit-post', {
+    locals,  
+    data,
+    layout: adminLayout 
+  });
+
+
+  } catch (error) {
+      console.log(error);
+  }
+
+});
+
+
+
+
+
+
+
+
+
+
 // router.post("/admin", async (req, res) => {
 //   try {
 //     const { username, password } = req.body;
