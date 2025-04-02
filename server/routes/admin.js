@@ -19,7 +19,7 @@ const jwtSecret = process.env.JWT_SECRET;
 // 
 // Admin : Check Login cookies route
 
-const authMiddleware = (req, res, next) => {
+    const authMiddleware = (req, res, next) => {
     const token = req.cookies.token;
 
     if (!token) {
@@ -32,7 +32,7 @@ const authMiddleware = (req, res, next) => {
         req.userId = decoded.userId;
         next();
     } catch (error) {
-        return res.status(401).json( { message : 'Unauthorized'});
+        return res.status(401).json( { message : '404:Not Found'});
     }
 }
 
@@ -43,6 +43,22 @@ const authMiddleware = (req, res, next) => {
 // Admin : Login route
 
 router.get("/admin", async (req, res) => {
+  try {
+    const locals = {
+      title: "Admin",
+      description: "Simple blog created with NodeJS, Express & MongoDB.",
+    };
+
+    res.render("admin/index", { locals, layout: adminLoginLayout });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// GET
+// Admin : Login route
+
+router.get("/login", async (req, res) => {
   try {
     const locals = {
       title: "Admin",
