@@ -4,6 +4,8 @@ const express = require('express');
 
 const expressLayout = require('express-ejs-layouts');
 
+const methodOverride = require('method-override');
+
 const cookieParser = require('cookie-parser');
 
 const session = require('express-session');
@@ -25,6 +27,7 @@ connectDB();
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 app.use(cookieParser());
+app.use(methodOverride('_method'));
 
 app.use(session({
     secret: 'rojar iftar',
